@@ -1,5 +1,4 @@
 .formRow {
-
   input,
   &.checkoutInput select {
     display: block;
@@ -10,7 +9,11 @@
     text-align: left;
     padding: 10px 5px;
     margin: 10px auto;
-    border: 1px solid #9e9e9e;
+    border: 1px solid #000000;
     outline: none;
   }
+}
+
+.formInput {
+  border: 1px solid #000000;
 }

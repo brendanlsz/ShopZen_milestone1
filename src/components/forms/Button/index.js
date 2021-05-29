@@ -1,12 +1,12 @@
-import React from 'react';
-import './styles.scss';
+import React from "react";
+import "./styles.scss";
 
 const Button = ({ children, ...otherProps }) => {
   return (
-    <button className="btn" {...otherProps}>
+    <button className="btnblock" {...otherProps}>
       {children}
     </button>
   );
-}
+};
 
-export default Button
+export default Button;
