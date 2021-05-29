@@ -62,7 +62,7 @@ const ProductCard = ({}) => {
           </li>
           <li>
             <span>
-              £{productPrice}
+              ${productPrice}
             </span>
           </li>
           <li>

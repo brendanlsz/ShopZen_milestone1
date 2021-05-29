@@ -47,10 +47,10 @@ const ProductResults = ({ }) => {
       name: 'Show all',
       value: ''
     }, {
-      name: 'Mens',
+      name: 'Electronics',
       value: 'electronics'
     }, {
-      name: 'Womens',
+      name: 'Others',
       value: 'others'
     }],
     handleChange: handleFilter
