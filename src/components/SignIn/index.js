@@ -6,12 +6,16 @@ import {
   googleSignInStart,
 } from "./../../redux/User/user.actions";
 
+import { firestore } from "./../../firebase/utils";
+import { fetchCart } from "./../../redux/Cart/cart.actions";
+
 import "./styles.scss";
 
 import AuthWrapper from "./../AuthWrapper";
 import FormInput from "./../forms/FormInput";
 import Buttons from "./../forms/Button";
 
+import googleLogo from "./../../assets/google-logo.png";
 const mapState = ({ user }) => ({
   currentUser: user.currentUser,
 });
@@ -26,6 +30,22 @@ const SignIn = (props) => {
   useEffect(() => {
     if (currentUser) {
       resetForm();
+      firestore
+        .collection("users")
+        .doc(`${currentUser}`)
+        .get()
+        .then((doc) => {
+          if (doc.exists) {
+            const cart = doc.data().cart;
+            dispatch(fetchCart(cart));
+          } else {
+            // doc.data() will be undefined in this case
+            console.log("No such cart!");
+          }
+        })
+        .catch((err) => {
+          console.log("Error getting cart:", err);
+        });
       history.push("/");
     }
   }, [currentUser]);
@@ -78,9 +98,10 @@ const SignIn = (props) => {
           <p className="text-center my-4">Or</p>
           <div className="d-flex justify-content-center">
             <button
-              className="btn btn-lg btn-danger loginbtn"
+              className="btn btn-lg btn-outline-dark loginbtn"
               onClick={handleGoogleSignIn}
             >
+              <img src={googleLogo} alt="googlelogo"></img>
               Sign in with Google
             </button>
           </div>

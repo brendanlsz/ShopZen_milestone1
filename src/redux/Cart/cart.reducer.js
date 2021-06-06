@@ -1,9 +1,12 @@
-import cartTypes from './cart.types';
-import { handleAddToCart, handleRemoveCartItem,
-  handleReduceCartItem } from './cart.utils';
+import cartTypes from "./cart.types";
+import {
+  handleAddToCart,
+  handleRemoveCartItem,
+  handleReduceCartItem,
+} from "./cart.utils";
 
 const INITIAL_STATE = {
-  cartItems: []
+  cartItems: [],
 };
 
 const cartReducer = (state = INITIAL_STATE, action) => {
@@ -13,30 +16,38 @@ const cartReducer = (state = INITIAL_STATE, action) => {
         ...state,
         cartItems: handleAddToCart({
           prevCartItems: state.cartItems,
-          nextCartItem: action.payload
-        })
+          nextCartItem: action.payload,
+        }),
       };
     case cartTypes.REDUCE_CART_ITEM:
       return {
         ...state,
         cartItems: handleReduceCartItem({
           prevCartItems: state.cartItems,
-          cartItemToReduce: action.payload
-        })
+          cartItemToReduce: action.payload,
+        }),
       };
     case cartTypes.REMOVE_CART_ITEM:
       return {
         ...state,
         cartItems: handleRemoveCartItem({
           prevCartItems: state.cartItems,
-          cartItemToRemove: action.payload
-        })
+          cartItemToRemove: action.payload,
+        }),
       };
     case cartTypes.CLEAR_CART:
       return {
         ...state,
-        ...INITIAL_STATE
-      }
+        ...INITIAL_STATE,
+      };
+
+    case cartTypes.FETCH_CART: {
+      return {
+        ...state,
+        cartItems: action.payload,
+      };
+    }
+
     default:
       return state;
   }

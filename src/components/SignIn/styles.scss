@@ -1,5 +1,5 @@
 .socialSignin {
-  margin: .5rem auto 0;
+  margin: 0.5rem auto 0;
 }
 
 .links {
@@ -10,4 +10,15 @@
   a {
     color: black;
   }
+}
+
+.loginbtn {
+  img {
+    width: 2rem;
+    margin: 0 5px 0 0;
+  }
+}
+
+.loginbtn:hover {
+  background-color: #4285f4;
 }

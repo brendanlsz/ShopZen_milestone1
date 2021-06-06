@@ -1,31 +1,34 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import ShopMen from './../../assets/shopMens.jpg';
-import ShopWomen from './../../assets/shopWomens.jpg';
-import './styles.scss';
+import React from "react";
+import { Link } from "react-router-dom";
+import ShopMen from "./../../assets/shopMens.jpg";
+import ShopWomen from "./../../assets/shopWomens.jpg";
+import ShopBag from "./../../assets/shopBag.jpg";
+import "./styles.scss";
 
-const Directory = props => {
+const Directory = (props) => {
   return (
     <div className="directory">
       <div className="wrap">
         <div
-          className="item"
+          className="item d-flex justify-content-center align-items-center flex-column"
           style={{
-            backgroundImage: `url(${ShopWomen})`
+            backgroundImage: `url(${ShopBag})`,
           }}
         >
-          <Link to="/search/others">
-            Shop Others
+          <h1 className="leftText">Here to Shop?</h1>
+          <Link className="btn btn-lg" to="/search/others">
+            View Products for Sale
           </Link>
         </div>
         <div
-          className="item"
+          className="item d-flex justify-content-center align-items-center flex-column"
           style={{
-            backgroundImage: `url(${ShopMen})`
+            backgroundImage: `url(${ShopMen})`,
           }}
         >
-          <Link to="/search/electronics">
-            Shop Electronics
+          <h1 className="rightText">Here to Sell?</h1>
+          <Link className="btn btn-lg" to="/search/electronics">
+            View Buy Requests
           </Link>
         </div>
       </div>

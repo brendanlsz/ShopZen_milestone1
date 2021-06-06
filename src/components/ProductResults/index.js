@@ -1,17 +1,17 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
-import { fetchProductsStart } from './../../redux/Products/products.actions';
-import Product from './Product';
-import FormSelect from './../forms/FormSelect';
-import LoadMore from './../LoadMore';
-import './styles.scss';
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory, useParams } from "react-router-dom";
+import { fetchProductsStart } from "./../../redux/Products/products.actions";
+import Product from "./Product";
+import FormSelect from "./../forms/FormSelect";
+import LoadMore from "./../LoadMore";
+import "./styles.scss";
 
 const mapState = ({ productsData }) => ({
-  products: productsData.products
+  products: productsData.products,
 });
 
-const ProductResults = ({ }) => {
+const ProductResults = ({}) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { filterType } = useParams();
@@ -20,9 +20,7 @@ const ProductResults = ({ }) => {
   const { data, queryDoc, isLastPage } = products;
 
   useEffect(() => {
-    dispatch(
-      fetchProductsStart({ filterType })
-    )
+    dispatch(fetchProductsStart({ filterType }));
   }, [filterType]);
 
   const handleFilter = (e) => {
@@ -34,26 +32,28 @@ const ProductResults = ({ }) => {
   if (data.length < 1) {
     return (
       <div className="products">
-        <p>
-          No search results.
-        </p>
+        <p>No search results.</p>
       </div>
     );
   }
 
   const configFilters = {
     defaultValue: filterType,
-    options: [{
-      name: 'Show all',
-      value: ''
-    }, {
-      name: 'Electronics',
-      value: 'electronics'
-    }, {
-      name: 'Others',
-      value: 'others'
-    }],
-    handleChange: handleFilter
+    options: [
+      {
+        name: "Show all",
+        value: "",
+      },
+      {
+        name: "Electronics",
+        value: "electronics",
+      },
+      {
+        name: "Others",
+        value: "others",
+      },
+    ],
+    handleChange: handleFilter,
   };
 
   const handleLoadMore = () => {
@@ -61,9 +61,9 @@ const ProductResults = ({ }) => {
       fetchProductsStart({
         filterType,
         startAfterDoc: queryDoc,
-        persistProducts: data
+        persistProducts: data,
       })
-    )
+    );
   };
 
   const configLoadMore = {
@@ -72,33 +72,29 @@ const ProductResults = ({ }) => {
 
   return (
     <div className="products">
-
-      <h1>
-        Browse Products
-      </h1>
+      <h1>Browse Products</h1>
 
       <FormSelect {...configFilters} />
 
       <div className="productResults">
         {data.map((product, pos) => {
           const { productThumbnail, productName, productPrice } = product;
-          if (!productThumbnail || !productName ||
-            typeof productPrice === 'undefined') return null;
+          if (
+            !productThumbnail ||
+            !productName ||
+            typeof productPrice === "undefined"
+          )
+            return null;
 
           const configProduct = {
-            ...product
+            ...product,
           };
 
-          return (
-            <Product key={pos} {...configProduct} />
-          );
+          return <Product key={pos} {...configProduct} />;
         })}
       </div>
 
-      {!isLastPage && (
-        <LoadMore {...configLoadMore} />
-      )}
-
+      {!isLastPage && <LoadMore {...configLoadMore} />}
     </div>
   );
 };

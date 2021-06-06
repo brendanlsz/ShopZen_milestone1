@@ -9,7 +9,7 @@ hr {
 }
 
 .form-content {
-  max-width: 40%;
+  max-width: 400px;
 }
 
 .socialSignin {
@@ -36,7 +36,7 @@ hr {
   justify-content: center;
   align-items: center;
   text-align: center;
-  min-height: 80vh;
+  // min-height: 80vh;
   // max-width: 80vw;
 }
 
@@ -61,10 +61,10 @@ hr {
   padding: 40px;
   display: inline-block;
   width: 100%;
-  min-width: 540px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  border-radius: 10px;
+  // min-width: 80vw;
+  // -webkit-border-radius: 10px;
+  // -moz-border-radius: 10px;
+  // border-radius: 10px;
   text-align: left;
   -webkit-transition: all 0.4s ease;
   transition: all 0.4s ease;
@@ -104,7 +104,7 @@ hr {
   width: 100%;
   padding: 9px 20px;
   text-align: left;
-  border-radius: 6px;
+  // border-radius: 6px;
   background-color: rgb(255, 255, 255);
   font-size: 15px;
   font-weight: 300;
@@ -134,7 +134,7 @@ hr {
   position: static !important;
   width: 100%;
   padding: 8px 20px;
-  border-radius: 6px;
+  // border-radius: 6px;
   text-align: left;
   background-color: #fff;
   border: 0;
@@ -169,10 +169,19 @@ hr {
   color: #2acc80;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 500px) {
   .formwrap {
     display: flex;
-    margin-top: 50vh;
-    margin-bottom: 50vh;
+    justify-content: center;
+  }
+
+  .form-content .form-items,
+  .form-holder,
+  .form-body {
+    min-width: 80vw;
+  }
+
+  .form-items {
+    padding: 2rem !important;
   }
 }

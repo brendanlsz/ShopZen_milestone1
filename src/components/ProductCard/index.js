@@ -1,86 +1,112 @@
-import React, { useEffect } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchProductStart, setProduct } from './../../redux/Products/products.actions';
-import { addProduct } from './../../redux/Cart/cart.actions';
-import Button from './../forms/Button';
-import './styles.scss';
+import React, { useEffect } from "react";
+import { useParams, useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchProductStart,
+  setProduct,
+} from "./../../redux/Products/products.actions";
+import { addProduct } from "./../../redux/Cart/cart.actions";
+import Button from "./../forms/Button";
+import "./styles.scss";
+import Product from "./../ProductResults/Product/index.js";
 
-const mapState = state => ({
-  product: state.productsData.product
+const mapState = (state) => ({
+  currentUser: state.user.currentUser,
+  product: state.productsData.product,
 });
 
 const ProductCard = ({}) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { productID } = useParams();
-  const { product } = useSelector(mapState);
+  const { product, currentUser } = useSelector(mapState);
 
   const {
     productThumbnail,
     productName,
     productPrice,
     productDesc,
+    productDetails,
   } = product;
 
   useEffect(() => {
-    dispatch(
-      fetchProductStart(productID)
-    )
+    dispatch(fetchProductStart(productID));
 
     return () => {
-      dispatch(
-        setProduct({})
-      )
-    }
-
+      dispatch(setProduct({}));
+    };
   }, []);
 
   const handleAddToCart = (product) => {
     if (!product) return;
-    dispatch(
-      addProduct(product)
-    );
-    history.push('/cart');
-  }
+    if (!currentUser) {
+      alert("Please Log in of Register to start shopping");
+      return;
+    }
+    dispatch(addProduct(product));
+    history.push("/cart");
+  };
 
   const configAddToCartBtn = {
-    type: 'button'
-  }
+    type: "button",
+  };
 
   return (
-    <div className="productCard">
-      <div className="hero">
-        <img src={productThumbnail} />
+    <div className="productCard ">
+      <div className="mainSection productSection">
+        <div className="row w-100">
+          <div className="thumbnail ">
+            <img src={productThumbnail} alt="No thumbnail found" />
+          </div>
+          <div className="productDetails ">
+            <ul className="">
+              <div className="productTitle">
+                <li className="productName">
+                  <h1>{productName}</h1>
+                </li>
+                <li className="productPrice">
+                  <span>${productPrice}</span>
+                </li>
+              </div>
+              <li className="productInfo">
+                {/* <span
+                  className="desc"
+                  // dangerouslySetInnerHTML={{ _html: productDesc }}
+                /> */}
+                <p>
+                  {productDesc === "" ? "No description given" : productDesc}
+                </p>
+                <p>Quantity left: 10</p>
+              </li>
+
+              <li className="addToCart">
+                <div>
+                  <Button
+                    {...configAddToCartBtn}
+                    onClick={() => handleAddToCart(product)}
+                  >
+                    Add to cart
+                  </Button>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
-      <div className="productDetails">
-        <ul>
-          <li>
-            <h1>
-              {productName}
-            </h1>
-          </li>
-          <li>
-            <span>
-              ${productPrice}
-            </span>
-          </li>
-          <li>
-            <div className="addToCart">
-              <Button {...configAddToCartBtn} onClick={() => handleAddToCart(product)}>
-                Add to cart
-              </Button>
-            </div>
-          </li>
-          <li>
-            <span
-              className="desc"
-              dangerouslySetInnerHTML={{ __html: productDesc }} />
-          </li>
-        </ul>
+      <div className="detailsSection productSection">
+        <h1>Specification/Details</h1>
+        <p>{productDetails}</p>
+      </div>
+      <div className="productSection recommendationSection">
+        <h1>You might also like</h1>
+        <div className="recList">
+          <Product className="recproduct col-4" {...product} />
+          <Product className="recproduct col-4" {...product} />
+          <Product className="recproduct col-4" {...product} />
+        </div>
       </div>
     </div>
   );
-}
+};
 
 export default ProductCard;

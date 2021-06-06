@@ -1,62 +1,66 @@
-export const existingCartItem = ({
-  prevCartItems,
-  nextCartItem
-}) => {
+import { handleUserCart } from "./../../firebase/utils";
+
+export const existingCartItem = ({ prevCartItems, nextCartItem }) => {
   return prevCartItems.find(
-    cartItem => cartItem.documentID === nextCartItem.documentID
+    (cartItem) => cartItem.documentID === nextCartItem.documentID
   );
 };
 
-export const handleAddToCart = ({
-  prevCartItems,
-  nextCartItem
-}) => {
+export const handleAddToCart = ({ prevCartItems, nextCartItem }) => {
   const quantityIncrement = 1;
   const cartItemExists = existingCartItem({ prevCartItems, nextCartItem });
-
   if (cartItemExists) {
-    return prevCartItems.map(cartItem =>
-      cartItem.documentID == nextCartItem.documentID
+    const newcart = prevCartItems.map((cartItem) =>
+      cartItem.documentID === nextCartItem.documentID
         ? {
-          ...cartItem,
-          quantity: cartItem.quantity + quantityIncrement
-        } : cartItem
+            ...cartItem,
+            quantity: cartItem.quantity + quantityIncrement,
+          }
+        : cartItem
     );
+    handleUserCart(newcart);
+    return newcart;
   }
 
-  return [
+  const newcart = [
     ...prevCartItems,
     {
       ...nextCartItem,
-      quantity: quantityIncrement
-    }
+      quantity: quantityIncrement,
+    },
   ];
+  handleUserCart(newcart);
+  return newcart;
 };
 
-export const handleRemoveCartItem = ({
-  prevCartItems,
-  cartItemToRemove
-}) => {
-  return prevCartItems.filter(item => item.documentID !== cartItemToRemove.documentID);
-}
+export const handleRemoveCartItem = ({ prevCartItems, cartItemToRemove }) => {
+  const newCart = prevCartItems.filter(
+    (item) => item.documentID !== cartItemToRemove.documentID
+  );
+  handleUserCart(newCart);
+  return newCart;
+};
 
-export const handleReduceCartItem = ({
-  prevCartItems,
-  cartItemToReduce
-}) => {
-  const existingCartItem = prevCartItems.find(cartItem =>
-    cartItem.documentID === cartItemToReduce.documentID);
+export const handleReduceCartItem = ({ prevCartItems, cartItemToReduce }) => {
+  const existingCartItem = prevCartItems.find(
+    (cartItem) => cartItem.documentID === cartItemToReduce.documentID
+  );
 
   if (existingCartItem.quantity === 1) {
-    return prevCartItems.filter(
-      cartItem => cartItem.documentID !== existingCartItem.documentID
+    const newCart = prevCartItems.filter(
+      (cartItem) => cartItem.documentID !== existingCartItem.documentID
     );
+    handleUserCart(newCart);
+    return newCart;
   }
 
-  return prevCartItems.map(cartItem =>
-    cartItem.documentID === existingCartItem.documentID ?
-    {
-      ...cartItem,
-      quantity: cartItem.quantity - 1
-    } : cartItem)
+  const newCart = prevCartItems.map((cartItem) =>
+    cartItem.documentID === existingCartItem.documentID
+      ? {
+          ...cartItem,
+          quantity: cartItem.quantity - 1,
+        }
+      : cartItem
+  );
+  return newCart;
 };
