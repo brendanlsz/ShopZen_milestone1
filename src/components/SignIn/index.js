@@ -29,12 +29,13 @@ const SignIn = (props) => {
 
   useEffect(() => {
     if (currentUser) {
+      console.log(currentUser);
       resetForm();
       firestore
-        .collection("users")
-        .doc(`${currentUser}`)
+        .doc(`users/${currentUser.id}`)
         .get()
         .then((doc) => {
+          console.log(doc);
           if (doc.exists) {
             const cart = doc.data().cart;
             dispatch(fetchCart(cart));
